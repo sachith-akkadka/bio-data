@@ -1,45 +1,46 @@
-/* Styling for the form */
+/* General Styling */
+* {
+  box-sizing: border-box;
+}
+
 body {
   font-family: Arial, sans-serif;
   background: #f8f9fa;
   margin: 0;
   padding: 0;
 }
-.form-container, .result-container {
-  width: 48%;
-}
-.hidden {
-  display: none;
-}
+
 .container {
   display: flex;
-  justify-content: space-between;
+  flex-wrap: nowrap;
   width: 90%;
-  max-width: 600px;
+  max-width: 1200px;
   margin: 50px auto;
   padding: 20px;
   background: #ffffff;
   border-radius: 8px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  display: grid;
-  grid-template-areas:
-    "header header"
-    "form form"
-    "result result";
-  gap: 20px;
+  overflow: hidden;
 }
 
+/* Header Styling */
 h1 {
   text-align: center;
-  grid-area: header;
   color: #333;
 }
 
-form {
-  grid-area: form;
+/* Form Container Styling */
+.form-container {
+  flex: 1;
+  padding: 20px;
+  overflow: auto;
+  border-right: 2px solid #e0e0e0;
+}
+
+.form-container form {
   display: grid;
-  grid-template-columns: 1fr 1fr;
   gap: 10px;
+  grid-template-columns: 1fr 1fr;
 }
 
 form label {
@@ -71,12 +72,21 @@ form button {
 form button:hover {
   background-color: #0056b3;
 }
-.gender-options{
+
+.gender-options {
   display: flex;
   align-items: center;
   gap: 10px;
   justify-content: center;
 }
+
+/* Result Container Styling */
+.result-container {
+  flex: 1;
+  padding: 20px;
+  overflow: auto;
+}
+
 .hidden {
   display: none;
 }
@@ -87,5 +97,14 @@ form button:hover {
   background: #e9f7ef;
   border-left: 5px solid #28a745;
   border-radius: 4px;
-  grid-area: result;
+}
+
+/* Additional Form Styling */
+ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+li {
+  margin-bottom: 10px;
 }
