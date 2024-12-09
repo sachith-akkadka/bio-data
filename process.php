@@ -4,7 +4,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $name = htmlspecialchars($_POST['name']);
     $gender = htmlspecialchars($_POST['gender']);
     $dob = htmlspecialchars($_POST['dob']);
-    $email = htmlspecialchars($_POST['email']);
+    $email = filter_var($_POST['email'], FILTER_SANITIZE_EMAIL);
     $phone = htmlspecialchars($_POST['phone']);
     $address = htmlspecialchars($_POST['address']);
     $country = htmlspecialchars($_POST['country']);
@@ -22,21 +22,31 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_FILES['profilePicture']) && $_FILES['profilePicture']['error'] === UPLOAD_ERR_OK) {
         $fileTmpPath = $_FILES['profilePicture']['tmp_name'];
         $fileName = basename($_FILES['profilePicture']['name']);
-        $destination = $uploadDir . $fileName;
-
+        $fileExtension = strtolower(pathinfo($fileName, PATHINFO_EXTENSION));
+        $allowedExtensions = ['jpg', 'jpeg', 'png', 'gif'];
+        
         // Ensure the upload directory exists
         if (!is_dir($uploadDir)) {
             mkdir($uploadDir, 0777, true);
         }
 
-        if (move_uploaded_file($fileTmpPath, $destination)) {
-            $profilePicture = $destination;
+        if (in_array($fileExtension, $allowedExtensions)) {
+            $newFileName = uniqid('profile_', true) . '.' . $fileExtension;
+            $destination = $uploadDir . $newFileName;
+
+            if (move_uploaded_file($fileTmpPath, $destination)) {
+                $profilePicture = $destination;
+            } else {
+                echo "<p>Failed to upload the profile picture. Please try again.</p>";
+            }
+        } else {
+            echo "<p>Invalid file type. Only JPG, JPEG, PNG, and GIF files are allowed.</p>";
         }
     }
 
     // Generate the response
     echo "<div>
-        <h2>Registration Successful</h2>";
+        <h2>Your Bio-Data</h2>";
 
     if ($profilePicture) {
         echo "<img src='$profilePicture' alt='Profile Picture' style='width: 150px; height: 150px; border-radius: 50%;'>";
@@ -55,7 +65,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <p><strong>Occupation:</strong> $occupation</p>
         <p><strong>Highest Qualification:</strong> $qualification</p>
         <p><strong>Hobbies:</strong> $hobbies</p>
-        <button id='downloadPdf'>Download as PDF</button>
+        <button id='downloadPdf' style='background-color: #007bff; color: white; font-weight: bold; cursor: pointer; margin-top: 10px; padding: 10px; border-radius: 4px; width: 100%;'>Download as PDF</button>
     </div>";
 } else {
     echo "Invalid request method.";

@@ -7,23 +7,28 @@
   <link rel="stylesheet" href="style.css">
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   <script src="script.js" defer></script>
 </head>
 <body>
   <div class="container">
     <!-- Left Container -->
     <div class="form-container">
-      <h1>Online Registration Form</h1>
+      <h1>Enter Your Details!!</h1>
       <form id="registrationForm" enctype="multipart/form-data">
         <label for="name">Full Name</label>
         <input type="text" id="name" name="name" required placeholder="Enter your full name">
-        
-        <label>Gender:</label>
+          <label>Gender:</label>
+
         <div class="gender-options">
-          <input type="radio" id="male" name="gender" value="Male">
-          <label for="male">Male</label>
-          <input type="radio" id="female" name="gender" value="Female">
-          <label for="female">Female</label>
+
+           <input type="radio" id="male" style="margin-left: 0px;" name="gender" value="Male">
+
+            <label for="male" style="margin-left: 0px;">Male</label>
+
+             <input type="radio" id="female" style="margin-left: 0px;" name="gender" value="Female">
+
+              <label for="female" style="margin-left: 0px;">Female</label>
         </div>
         
         <label for="dob">Date of Birth</label>
