@@ -29,21 +29,29 @@ $(document).ready(function () {
     // Ensure #result exists and is visible
     const resultElement = document.querySelector('#result');
     if (!resultElement || resultElement.classList.contains('hidden')) {
-      alert('Nothing to download! Please complete the form first.');
-      return;
+        alert('Nothing to download! Please complete the form first.');
+        return;
     }
 
-    const doc = new jsPDF();
+    // Initialize jsPDF
+    const doc = new jsPDF({
+        orientation: 'portrait',
+        unit: 'px',
+        format: 'a4'
+    });
 
     // Convert the content of #result to PDF
     doc.html(resultElement, {
-      callback: function (doc) {
-        doc.save('registration-details.pdf'); // Save as PDF
-      },
-      x: 10,
-      y: 10,
-      margin: [10, 10, 10, 10], // Optional: Add some margins
-      autoPaging: 'text', // Handle multi-page content
+        callback: function (doc) {
+            doc.save('registration-details.pdf'); // Save as PDF
+        },
+        x: 10, // Adjust x-coordinate
+        y: 10, // Adjust y-coordinate
+        html2canvas: {
+            scale: 0.5, // Adjust scale for better quality
+            useCORS: true, // Enable cross-origin images
+        },
+        windowWidth: resultElement.scrollWidth, // Handle full width
     });
-  });
+});
 });

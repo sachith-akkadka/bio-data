@@ -45,7 +45,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     // Generate the response
-    echo "<div>
+    echo "<div style='margin-top: 20px;
+  margin-left: 50px;
+  padding: 20px;'>
         <h2>Your Bio-Data</h2>";
 
     if ($profilePicture) {
