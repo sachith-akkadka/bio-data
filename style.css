@@ -22,17 +22,6 @@ body {
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   overflow: hidden;
 }
-.result-container{
-  display: flex;
-  flex-wrap: nowrap;
-  width: 90%;
-  max-width: 1200px;
-  margin: 50px auto;
-  padding: 20px;
-  background: #ffffff;
-  border-radius: 8px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-}
 
 /* Header Styling */
 h1 {
@@ -95,16 +84,6 @@ form button:hover {
 
 .hidden {
   display: none;
-}
-
-#result {
-  margin-top: 20px;
-  margin-left: 50px;
-  padding: 20px;
-  background: #e9f7ef;
-  border-left: 10px solid #28a745;
-  border-radius: 4px;
-  align-items: center;
 }
 
 /* Additional Form Styling */

@@ -14,44 +14,58 @@ $(document).ready(function () {
       processData: false, // Prevent jQuery from processing the data
       contentType: false, // Prevent jQuery from setting content type
       success: function (response) {
-        $('#result').html(response).removeClass('hidden'); // Display response in the result div
+        // Open the response in a new tab
+        const newTab = window.open();
+        if (newTab) {
+          newTab.document.open();
+          newTab.document.write(`
+            <html>
+              <head>
+                <title>Registration Details</title>
+                <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+                <script>
+                  function downloadPDF() {
+                    const { jsPDF } = window.jspdf;
+                    const doc = new jsPDF({
+                      orientation: 'portrait',
+                      unit: 'px',
+                      format: 'a4'
+                    });
+
+                    const content = document.body.innerHTML; // Capture the content of the new tab
+                    const container = document.createElement('div');
+                    container.innerHTML = content;
+
+                    doc.html(container, {
+                      callback: function (doc) {
+                        doc.save('registration-details.pdf');
+                      },
+                      x: 10,
+                      y: 10,
+                      html2canvas: {
+                        scale: 0.5, // Adjust scale for better quality
+                        useCORS: true, // Enable cross-origin images
+                      },
+                    });
+                  }
+                </script>
+              </head>
+              <body>
+                ${response}
+                <script>
+                  document.getElementById('downloadPdf').addEventListener('click', downloadPDF);
+                </script>
+              </body>
+            </html>
+          `);
+          newTab.document.close();
+        } else {
+          alert('Pop-up blocked. Please allow pop-ups for this website.');
+        }
       },
       error: function () {
         alert('Error submitting the form. Please try again!');
       },
     });
   });
-
-  // Handle PDF download
-  $(document).on('click', '#downloadPdf', function () {
-    const { jsPDF } = window.jspdf;
-
-    // Ensure #result exists and is visible
-    const resultElement = document.querySelector('#result');
-    if (!resultElement || resultElement.classList.contains('hidden')) {
-        alert('Nothing to download! Please complete the form first.');
-        return;
-    }
-
-    // Initialize jsPDF
-    const doc = new jsPDF({
-        orientation: 'portrait',
-        unit: 'px',
-        format: 'a4'
-    });
-
-    // Convert the content of #result to PDF
-    doc.html(resultElement, {
-        callback: function (doc) {
-            doc.save('registration-details.pdf'); // Save as PDF
-        },
-        x: 10, // Adjust x-coordinate
-        y: 10, // Adjust y-coordinate
-        html2canvas: {
-            scale: 0.5, // Adjust scale for better quality
-            useCORS: true, // Enable cross-origin images
-        },
-        windowWidth: resultElement.scrollWidth, // Handle full width
-    });
-});
 });
